@@ -1,0 +1,6 @@
+export const SET_MODAL_EVENT = 'SET_MODAL_EVENT';
+export const SET_NEW_EVENT = 'SET_NEW_EVENT';
+export const SET_EVENTS = 'SET_EVENTS';
+export const CLEAR_MODAL_EVENT = 'CLEAR_MODAL_EVENT';
+export const DELETE_EVENT = 'DELETE_EVENT';
+export const UPDATE_EVENT = 'UPDATE_EVENT';
