@@ -84,6 +84,7 @@ export const MyCalendar = connect(mapStateToProps, {
     };
 
     const getEventStyles = (event, start) => {
+        start = new Date(start);
         const style = {};
         const eventStartDate = start.getDate();
         const eventStartMonth = start.getMonth();

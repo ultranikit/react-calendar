@@ -3,16 +3,29 @@ import * as action_type from './constants.js';
 // state for start
 
 const thisMonth = new Date().getMonth();
+
+const loadStorage = () => {
+    const storage = localStorage.getItem('events');
+    if (storage) return JSON.parse(storage);
+    return [];
+};
+
+const saveToStorage = (updatedArray) => {
+    localStorage.setItem('events', JSON.stringify(updatedArray));
+};
+
 const initialState = {
-    events: [
-        {
-            id: 1,
-            title: 'All Day Event very long title',
-            // allDay: true,
-            start: new Date(2020, thisMonth, 27, 0),
-            end: new Date(2020, thisMonth, 27, 20),
-        }
-    ],
+    events: loadStorage()
+    //     [
+    //     {
+    //         id: 1,
+    //         title: 'All Day Event very long title',
+    //         // allDay: true,
+    //         start: new Date(2020, thisMonth, 27, 0),
+    //         end: new Date(2020, thisMonth, 27, 20),
+    //     }
+    // ]
+    ,
     modalEvent: {
         title: '',
         start: null,
@@ -24,6 +37,7 @@ const initialState = {
 
 function calendarReducer(state = initialState, action) {
     const {type, payload} = action;
+    let updatedArray;
     switch (type) {
         case action_type.SET_MODAL_EVENT:
             return {
@@ -38,27 +52,32 @@ function calendarReducer(state = initialState, action) {
             };
 
         case action_type.SET_NEW_EVENT:
+            updatedArray = [...state.events, payload];
+            saveToStorage(updatedArray);
             return {
                 ...state,
-                events: [...state.events, payload]
+                events: updatedArray
             };
 
         case  action_type.UPDATE_EVENT:
-            const newArray = state.events.slice();
-            const findIndex = newArray.findIndex(item => item.id === payload.id);
-            newArray[findIndex] = payload;
+            updatedArray = state.events.slice();
+            const findIndex = updatedArray.findIndex(item => item.id === payload.id);
+            updatedArray[findIndex] = payload;
+            saveToStorage(updatedArray);
             return {
                 ...state,
-                events: newArray
+                events: updatedArray
             };
 
         case action_type.DELETE_EVENT:
+            updatedArray = [
+                ...state.events.slice(0, payload),
+                ...state.events.slice(payload + 1)
+            ];
+
             return {
                 ...state,
-                events: [
-                    ...state.events.slice(0, payload),
-                    ...state.events.slice(payload + 1)
-                ]
+                events: updatedArray
             };
 
         case action_type.CLEAR_MODAL_EVENT:

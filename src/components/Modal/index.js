@@ -48,6 +48,7 @@ const DatePick = (props) => {
 export const Modal = (props) => {
     const {setModalEvent, modal, isNewEvent, handleEventSave, handleEventDelete, modalEvent, closeModal} = props;
     const {title, start, end, desc} = modalEvent;
+    console.log(start, end);
 
     const handleInputChange = (event) => {
         const key = event.target.name;
@@ -104,7 +105,7 @@ export const Modal = (props) => {
                     </label>
                     <DatePick
                         name={'start'}
-                        selected={start}
+                        selected={new Date(start)}
                         onChange={handleStartDateChange}
                     />
                 </div>
@@ -114,7 +115,7 @@ export const Modal = (props) => {
                     </label>
                     <DatePick
                         name={'end'}
-                        selected={end}
+                        selected={new Date(end)}
                         onChange={handleEndDateChange}
                     />
                 </div>
